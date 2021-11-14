@@ -36,6 +36,7 @@ class MultiMobile {
     feeCost = mobileCost * fee;
     vatCost = (mobileCost + feeCost) * vat;
     totalCost = mobileCost + feeCost + vatCost;
+    output();
     return totalCost;
   }
 
@@ -49,12 +50,34 @@ class MultiMobile {
     return number;
   }
   
+  private int maxGain(float[] gain, int excludeIndex) {
+    float diff = 0.00;
+    int max = -1;
+    
+    for(int i = 0; i < 5; i++) {
+      if(i == excludeIndex)
+        continue;
+      if(max == -1)
+        max = i;
+      else
+        if(Math.abs(gain[max]) < Math.abs(gain[i]))
+          max = i;
+    }
+    return max;
+  }
+  
   public static void main(String[] arguments) {
     float[] gain = new float[5] {0,0,0,0,0};
+    
     for(int i = 0; i < 5; i++) {
-      time = input("Χρόνος ομιλίας σε δευτερόλεπτα");
-      sms = input("Πλήθος των SMS");
+      time = input("time");
+      sms = input("SMS");
       gain[i] = cost() - freeCost();
     }
+    
+    int max1 = maxGain(gain, -1);
+    System.out.print("1st maximum difference " + Math.abs(gain[max1]) + " at position " + max1);
+    int max2 = maxGain(gain, max1);
+    System.out.print("2nd maximum difference " + Math.abs(gain[max2]) + " at position " + max2); 
   }
 }
