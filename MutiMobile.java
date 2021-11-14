@@ -52,7 +52,6 @@ class MultiMobile {
   }
   
   private int maxGain(float[] gain, int excludeIndex) {
-    float diff = 0.00;
     int max = -1;
     
     for(int i = 0; i < 5; i++) {
@@ -61,7 +60,7 @@ class MultiMobile {
       if(max == -1)
         max = i;
       else
-        if(Math.abs(gain[max]) < Math.abs(gain[i]))
+        if(gain[max] < gain[i])
           max = i;
     }
     return max;
@@ -73,12 +72,12 @@ class MultiMobile {
     for(int i = 0; i < 5; i++) {
       time = input("time");
       sms = input("SMS");
-      gain[i] = cost() - freeCost();
+      gain[i] = Math.abs(cost() - freeCost());
     }
     
     int max1 = maxGain(gain, -1);
-    System.out.print("1st maximum difference " + Math.abs(gain[max1]) + " at position " + max1);
+    System.out.print("1st maximum difference " + gain[max1] + " at position " + max1);
     int max2 = maxGain(gain, max1);
-    System.out.print("2nd maximum difference " + Math.abs(gain[max2]) + " at position " + max2); 
+    System.out.print("2nd maximum difference " + gain[max2] + " at position " + max2); 
   }
 }
