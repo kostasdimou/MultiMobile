@@ -4,22 +4,22 @@ import java.lang.Math;
 class MultiMobile {
   Scanner in = new Scanner(System.in);
 
-  const static float fixed = 12.00; // euro
-  const static int freeSeconds = 1000; // seconds
-  const static float costPerSecond = 0.02; // euro/second
-  const static float costPerSMS = 0.08; // euro/SMS
-  const static float fee = 0.05; // 5%
-  const static float vat = 24.00; // 24%
+  final static double fixed = 12.00; // euro
+  final static int freeSeconds = 1000; // seconds
+  final static double costPerSecond = 0.02; // euro/second
+  final static double costPerSMS = 0.08; // euro/SMS
+  final static double fee = 0.05; // 5%
+  final static double vat = 24.00; // 24%
 
   int time = 0;
   int sms = 0;
   
-  float mobileCost = 0.00;
-  float feeCost = 0.00;
-  float vatCost = 0.00;
-  float totalCost = 0.00;
+  double mobileCost = 0.00;
+  double feeCost = 0.00;
+  double vatCost = 0.00;
+  double totalCost = 0.00;
   
-  private void output(void) {
+  private void output() {
     System.out.print("Time:  " + time);
     System.out.print("SMS:   " + sms);
     System.out.print("Cost:  " + mobileCost);
@@ -28,12 +28,12 @@ class MultiMobile {
     System.out.print("Total: " + totalCost);
   }
     
-  private float cost(float fixed, int time) {
+  private double cost(double fixed, int time) {
     if(time > freeSeconds)
       time -= freeSeconds;
     else
       time = 0;
-    mobileCost = fixed + durationCost * time + smsCost * sms;
+    mobileCost = fixed + costPerSecond * time + costPerSMS * sms;
     feeCost = mobileCost * fee;
     vatCost = (mobileCost + feeCost) * vat;
     totalCost = mobileCost + feeCost + vatCost;
@@ -41,7 +41,7 @@ class MultiMobile {
     return totalCost;
   }
 
-  private float freeCost(void) {
+  private double freeCost() {
     return cost(0, time + freeSeconds);
   }
 
@@ -51,7 +51,7 @@ class MultiMobile {
     return number;
   }
   
-  private int maxGain(float[] gain, int excludeIndex) {
+  private int maxGain(double[] gain, int excludeIndex) {
     int max = -1;
     
     for(int i = 0; i < 5; i++) {
@@ -67,7 +67,7 @@ class MultiMobile {
   }
   
   public static void main(String[] arguments) {
-    float[] gain = new float[5] {0,0,0,0,0};
+    double[] gain = new double[] {0,0,0,0,0};
     
     for(int i = 0; i < 5; i++) {
       time = input("time");
