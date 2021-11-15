@@ -2,8 +2,6 @@ import java.util.Scanner;
 import java.lang.Math;
 
 class MultiMobile {
-	Scanner in = new Scanner(System.in);
-
 	final static double fixed = 12.00; // euro
 	final static int freeMinutes = 1000; // minutes
 	final static int freeSeconds = freeMinutes * 60; // seconds
@@ -19,6 +17,8 @@ class MultiMobile {
 	double feeCost = 0.00;
 	double vatCost = 0.00;
 	double totalCost = 0.00;
+
+	Scanner in = new Scanner(System.in);
 
 	/*
 	private void output(String title) {
@@ -83,7 +83,7 @@ class MultiMobile {
 
 	public static void main(String[] arguments) {
 		double[] gain = new double[] {0,0,0,0,0};
-	MultiMobile mobile = new MultiMobile();
+		MultiMobile mobile = new MultiMobile();
 
 		for(int i = 0; i < 5; i++) {
 			mobile.input(i + 1);
