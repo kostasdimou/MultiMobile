@@ -19,13 +19,15 @@ class MultiMobile {
   double vatCost = 0.00;
   double totalCost = 0.00;
   
-  private void output() {
-    System.out.print("Time:  " + time);
-    System.out.print("SMS:   " + sms);
-    System.out.print("Cost:  " + mobileCost);
-    System.out.print("Fee:   " + feeCost);
-    System.out.print("Vat:   " + vatCost);
-    System.out.print("Total: " + totalCost);
+  private void output(String title) {
+    System.out.println("-----------" + title + "-----------");
+    System.out.println("Time:  " + time);
+    System.out.println("SMS:   " + sms);
+    System.out.println("Cost:  " + mobileCost);
+    System.out.println("Fee:   " + feeCost);
+    System.out.println("Vat:   " + vatCost);
+    System.out.println("Total: " + totalCost);
+    System.out.println();
   }
     
   private double cost(double fixed, int time) {
@@ -37,21 +39,31 @@ class MultiMobile {
     feeCost = mobileCost * fee;
     vatCost = (mobileCost + feeCost) * vat;
     totalCost = mobileCost + feeCost + vatCost;
-    output();
+    output(fixed > 0 ? "Fixed" : "Free");
     return totalCost;
   }
 
-  private double freeCost() {
+  public double fixedCost() {
+	return cost(fixed, time);
+  }
+
+  public double freeCost() {
+	// We add the freeSeconds as they will be excluded in the called method.
     return cost(0, time + freeSeconds);
   }
 
-  private int input(String prompt) {
+  private int askFor(String prompt) {
     System.out.print(prompt + ": ");
     int number = in.nextInt();
     return number;
   }
   
-  private int maxGain(double[] gain, int excludeIndex) {
+  public void input() {
+      time = askFor("time");
+      sms = askFor("SMS");
+  }
+  
+  public int maxGain(double[] gain, int excludeIndex) {
     int max = -1;
     
     for(int i = 0; i < 5; i++) {
@@ -68,16 +80,16 @@ class MultiMobile {
   
   public static void main(String[] arguments) {
     double[] gain = new double[] {0,0,0,0,0};
+	MultiMobile mobile = new MultiMobile();
     
     for(int i = 0; i < 5; i++) {
-      time = input("time");
-      sms = input("SMS");
-      gain[i] = Math.abs(cost() - freeCost());
+      mobile.input();
+      gain[i] = Math.abs(mobile.fixedCost() - mobile.freeCost());
     }
     
-    int max1 = maxGain(gain, -1);
-    System.out.print("1st maximum difference " + gain[max1] + " at position " + max1);
-    int max2 = maxGain(gain, max1);
-    System.out.print("2nd maximum difference " + gain[max2] + " at position " + max2); 
+    int max1 = mobile.maxGain(gain, -1);
+    System.out.println("1st maximum difference " + gain[max1] + " at position " + max1);
+    int max2 = mobile.maxGain(gain, max1);
+    System.out.println("2nd maximum difference " + gain[max2] + " at position " + max2); 
   }
 }
